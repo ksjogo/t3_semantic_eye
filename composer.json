@@ -1,0 +1,22 @@
+{
+  "version": "0.0.1",
+  "name": "dkd/semantic-eye",
+  "description": "",
+  "type": "typo3-cms-extension",
+  "homepage": "http://www.dkd.de",
+  "time": "2016-11-11",
+  "authors": [
+    {
+      "name": "Johannes Goslar",
+      "email": "johannes.goslar@dkd.de"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Dkd\\SemanticEye\\": "Classes/"
+    }
+  },
+  "require": {
+    "typo3/cms": "7.6"
+  }
+}
