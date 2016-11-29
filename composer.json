@@ -9,6 +9,11 @@
     {
       "name": "Johannes Goslar",
       "email": "johannes.goslar@dkd.de"
+    },
+
+    {
+      "name": "Alexander Dornburg",
+      "email": "alexander.dornburg@dkd.de"
     }
   ],
   "autoload": {
@@ -17,6 +22,7 @@
     }
   },
   "require": {
+    "google/cloud": "^0.11.1",
     "typo3/cms": "7.6"
   }
 }
