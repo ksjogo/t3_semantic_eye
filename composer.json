@@ -23,6 +23,7 @@
   },
   "require": {
     "google/cloud": "^0.11.1",
-    "typo3/cms": "7.6"
+    "typo3/cms": "7.6",
+    "guzzlehttp/guzzle": "~6.0"
   }
 }
