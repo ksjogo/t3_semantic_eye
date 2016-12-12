@@ -2,23 +2,35 @@
 namespace Dkd\SemanticEye\Command;
 
 use \Dkd\SemanticEye\Service\CloudVision;
+use TYPO3\CMS\Core\Resource\ResourceFactory;
 
-class CloudVisionCommandController extends \TYPO3\CMS\Extbase\Mvc\Controller\CommandController
+class CloudVisionCommandController extends CommandController
 {
-
     /**
      * @var \Dkd\SemanticEye\Service\CloudVisionService
      * @inject
      */
     protected $cloudVision;
 
-    /*FIXME:
-      collect test arguments from cli
-      pass arguments to the actual service
-      better naming for calls
-    */
-    public function testCommand()
+    /**
+     * Get concepts for image
+     *
+     * Uses Google CloudVisionService to get concepts.
+     *
+     * @param string $filename filename of the image - EXT: is honoured.
+     * @return void
+     */
+    public function conceptsCommand(string $filename = NULL)
     {
-        $this->cloudVision->doSomething("arguments");
+        //FIXME: should be @inject, why is that not working?
+        if (!$this->resourceFactory)
+            $this->resourceFactory = $this->objectManager->get(ResourceFactory::class);
+
+        if(!$filename)
+            $filename = 'EXT:semantic_eye/Resources/Private/TestImages/1.png';
+
+        $file = $this->resourceFactory->retrieveFileOrFolderObject($filename);
+        $result = $this->cloudVision->extractConcepts($file);
+        print_r($result);
     }
 }
