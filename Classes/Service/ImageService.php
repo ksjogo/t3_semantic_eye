@@ -21,4 +21,9 @@ abstract class ImageService implements \TYPO3\CMS\Core\SingletonInterface
      * @return array Sorted array of arrays containing 'label' and 'score' values
      */
     abstract public function extractConcepts(File $file);
+
+    abstract public function extractlandmark(File $file);
+
+    abstract public function extractface(File $file);
+
 }
