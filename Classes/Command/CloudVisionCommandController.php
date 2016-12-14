@@ -28,20 +28,29 @@ class CloudVisionCommandController extends CommandController
 
         if(!$filename)
             //$filename = 'EXT:semantic_eye/Resources/Private/TestImages/1.png';
+            //$filename = 'EXT:semantic_eye/Resources/Private/TestImages/landmark.jpeg';
             $filename = 'EXT:semantic_eye/Resources/Private/TestImages/face.png';
-
 
             $file = $this->resourceFactory->retrieveFileOrFolderObject($filename);
 
-        $result_label = $this->cloudVision->extractConcepts($file);
-        print_r($result_label);
 
-        $result_landmark = $this->cloudVision->extractlandmark($file);
-        print_r($result_landmark);
+            //$result_label = $this->cloudVision->extractConcepts($file);
+            //print_r($result_label);
 
-        $result_face = $this->cloudVision->extractface($file);
-        print_r($result_face);
+            //$result_landmark = $this->cloudVision->extractlandmark($file);
+            //print_r($result_landmark);
 
+            $result_face = $this->cloudVision->extractface($file);
+            print_r($result_face);
+
+            //$result_text = $this->cloudVision->extracttext($file);
+            //print_r($result_text);
+
+            //$result_logo = $this->cloudVision->extractlogo($file);
+            //print_r($result_logo);
+
+            //$result_safe = $this->cloudVision->extractSafe($file);
+            //print_r($result_safe);
 
     }
 }

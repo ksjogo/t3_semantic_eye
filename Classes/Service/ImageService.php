@@ -20,10 +20,16 @@ abstract class ImageService implements \TYPO3\CMS\Core\SingletonInterface
      * @param \TYPO3\CMS\Core\Resource\File $file FileObject to be annotated
      * @return array Sorted array of arrays containing 'label' and 'score' values
      */
-    abstract public function extractConcepts(File $file);
+    //abstract public function extractConcepts(File $file);
 
-    abstract public function extractlandmark(File $file);
+    //abstract public function extractlandmark(File $file);
 
     abstract public function extractface(File $file);
+
+    //abstract public function extracttext(File $file);
+
+    //abstract public function extractlogo(File $file);
+
+    //abstract public function extractSafe(File $file);
 
 }
