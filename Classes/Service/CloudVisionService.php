@@ -28,7 +28,7 @@ class CloudVisionService extends ImageService
             ['LABEL_DETECTION']
         );
 
-        print("\nType of image detection: LABEL_DETECTION\n");
+        echo("\nType of image detection: LABEL_DETECTION\n");
 
         $result = $this->vision->annotate($image);
 
@@ -58,18 +58,18 @@ class CloudVisionService extends ImageService
         }
 
         foreach ($result->info()['landmarkAnnotations'] as $annotation) {
-            print("\nType of image detection: LANDMARK_DETECTION\n");
-            print("mid: $annotation[mid]\n");
-            print("description: $annotation[description]\n");
-            print("score: $annotation[score]\n\n");
+            echo("\nType of image detection: LANDMARK_DETECTION\n");
+            echo("mid: $annotation[mid]\n");
+            echo("description: $annotation[description]\n");
+            echo("score: $annotation[score]\n\n");
 
-            $this->boundingPoly($annotation);
+            print_r($this->boundingPoly($annotation));
 
             if (isset($annotation['locations'])) {
                 foreach ($annotation['locations'] as $location) {
                     if (isset($location['latLng'])) {
                         $found = $location['latLng'];
-                        print("\nlocation: \nlatitude:$found[latitude]" .
+                        echo("\nlocation: \nlatitude:$found[latitude]" .
                             "\nlongitude:$found[longitude]\n\n");
                     }
                 }
@@ -95,7 +95,7 @@ class CloudVisionService extends ImageService
             ['FACE_DETECTION']
         );
 
-        print("\nType of image detection: FACE_DETECTION\n\n");
+        echo("\nType of image detection: FACE_DETECTION\n\n");
 
         $result = $this->vision->annotate($image);
 
@@ -105,77 +105,38 @@ class CloudVisionService extends ImageService
 
         foreach ($result->info()['faceAnnotations'] as $annotation) {
 
-            $this->boundingPoly($annotation);
+            print_r($this->boundingPoly($annotation));
 
-            print("\n");
+            echo("\n");
 
             if (isset($annotation['landmarks'])) {
-                print("LANDMARKS:\n");
+                echo("LANDMARKS:\n");
                 foreach ($annotation['landmarks'] as $landmark) {
                     $pos = $landmark['position'];
-                    print("$landmark[type]:\nx:$pos[x]\ty:$pos[y]\tz:$pos[z]\n\n");
+                    echo("$landmark[type]:\nx:$pos[x]\ty:$pos[y]\tz:$pos[z]\n\n");
                 }
             }
 
             $features = [
-                'rollAngle',
-                'panAngle',
-                'tiltAngle',
-                'detectionConfidence',
-                'landmarkingConfidence',
-                'joyLikelihood',
-                'sorrowLikelihood',
-                'angerLikelihood',
-                'surpriseLikelihood',
-                'underExposedLikelihood',
-                'blurredLikelihood',
-                'headwearLikelihood'
+                'rollAngle' => 'rollAngle',
+                'panAngle' => 'panAngle',
+                'tiltAngle' => 'tiltAngle',
+                'detectionConfidence' => 'detectionConfidence',
+                'landmarkingConfidence' => 'landmarkingConfidence',
+                'joyLikelihood' => 'Joy',
+                'sorrowLikelihood' => 'Sorrow',
+                'angerLikelihood' => 'Anger',
+                'surpriseLikelihood' => 'Suprise',
+                'underExposedLikelihood' => 'UnderExposed',
+                'blurredLikelihood' => 'Blurred',
+                'headwearLikelihood' => 'Headwear'
             ];
 
-            print("FIELDS:\n");
-            
-            foreach ($features as $feature) {
+            echo("FIELDS:\n");
+
+            foreach ($features as $feature => $value) {
                 if (isset($annotation[$feature])) {
-                    switch ($feature) {
-                        case 'rollAngle':
-                            print("rollAngle:\t$annotation[$feature]\n");
-                            break;
-                        case 'panAngle':
-                            print("panAngle:\t$annotation[$feature]\n");
-                            break;
-                        case 'tiltAngle':
-                            print("tiltAngle:\t$annotation[$feature]\n");
-                            break;
-                        case 'detectionConfidence':
-                            print("detectionConfidence:\t$annotation[$feature]\n");
-                            break;
-                        case 'landmarkingConfidence':
-                            print("landmarkingConfidence:\t$annotation[$feature]\n");
-                            break;
-                        case 'joyLikelihood':
-                            print("Joy:\t$annotation[$feature]\n");
-                            break;
-                        case 'sorrowLikelihood':
-                            print("sorrow:\t$annotation[$feature]\n");
-                            break;
-                        case 'angerLikelihood':
-                            print("anger:\t$annotation[$feature]\n");
-                            break;
-                        case 'supriseLikelihood':
-                            print("suprise:\t$annotation[$feature]\n");
-                            break;
-                        case 'underExposedLikelihood':
-                            print("underExposed:\t$annotation[$feature]\n");
-                            break;
-                        case 'blurredLikelihood':
-                            print("blurred:\t$annotation[$feature]\n");
-                            break;
-                        case 'headwearLikelihood':
-                            print("headwear:\t$annotation[$feature]\n");
-                            break;
-                        default:
-                            //print("$feature:\t$annotation[$feature]\n");
-                    }
+                    echo("$value:\t$annotation[$feature]\n");
                 }
             }
         }
@@ -185,7 +146,7 @@ class CloudVisionService extends ImageService
                 'Joy' => $annotation['joyLikelihood'],
                 'sorrow' => $annotation['sorrowLikelihood'],
                 'anger' => $annotation['angerLikelihood'],
-                'suprise' => $annotation['supriseLikelihood'],
+                'suprise' => $annotation['surpriseLikelihood'],
                 'underExposed' => $annotation['underExposedLikelihood'],
                 'blurred' => $annotation['blurredLikelihood'],
                 'headwear' => $annotation['headwearLikelihood']
@@ -204,7 +165,7 @@ class CloudVisionService extends ImageService
             ['TEXT_DETECTION']
         );
 
-        print("\nType of image detection: TEXT_DETECTION\n\n");
+        echo("\nType of image detection: TEXT_DETECTION\n\n");
 
         $result = $this->vision->annotate($image);
 
@@ -214,16 +175,16 @@ class CloudVisionService extends ImageService
 
         foreach ($result->info()['textAnnotations'] as $annotation) {
 
-            $this->boundingPoly($annotation);
+            print_r($this->boundingPoly($annotation));
 
-            print("\n");
+            echo("\n");
 
             if (isset($annotation['locale'])) {
-                print("local: $annotation[locale]\n");
+                echo("local: $annotation[locale]\n");
             }
 
             if (isset($annotation['description'])) {
-                print("description: $annotation[description]\n");
+                echo("description: $annotation[description]\n");
             }
         }
 
@@ -246,7 +207,7 @@ class CloudVisionService extends ImageService
             ['LOGO_DETECTION']
         );
 
-        print("\nType of image detection: LOGO_DETECTION\n\n");
+        echo("\nType of image detection: LOGO_DETECTION\n\n");
 
         $result = $this->vision->annotate($image);
 
@@ -256,13 +217,13 @@ class CloudVisionService extends ImageService
 
         foreach ($result->info()['logoAnnotations'] as $annotation) {
             if (isset($annotation['description'])) {
-                print("description: $annotation[description]\n");
+                echo("description: $annotation[description]\n");
             }
             if (isset($annotation['mid'])) {
-                print("mid: $annotation[mid]\n");
+                echo("mid: $annotation[mid]\n");
             }
             if (isset($annotation['score'])) {
-                print("score: $annotation[score]\n\n");
+                echo("score: $annotation[score]\n\n");
             }
 
             $this->boundingPoly($annotation);
@@ -287,7 +248,7 @@ class CloudVisionService extends ImageService
             ['SAFE_SEARCH_DETECTION']
         );
 
-        print("\nType of image detection: SAFE_SEARCH_DETECTION\n");
+        echo("\nType of image detection: SAFE_SEARCH_DETECTION\n");
 
         $result = $this->vision->annotate($image);
 
@@ -298,40 +259,51 @@ class CloudVisionService extends ImageService
         foreach ($result->info()['safeSearchAnnotation'] as $annotation) {
 
             if (isset($annotation['adult'])) {
-                print("adult: $annotation[adult]\n");
+                echo("adult: $annotation[adult]\n");
             }
 
             if (isset($annotation['spoof'])) {
-                print("spoof: $annotation[spoof]\n");
+                echo("spoof: $annotation[spoof]\n");
             }
 
             if (isset($annotation['medical'])) {
-                print("medical: $annotation[medical]\n");
+                echo("medical: $annotation[medical]\n");
             }
 
             if (isset($annotation['violence'])) {
-                print("violence: $annotation[violence]\n");
+                echo("violence: $annotation[violence]\n");
             }
-        }
+         }
 
-        /*
+            /*
+            if(isset ($annotation['adult'])) {
+                print ("array exists");
+            }
+
+            if(!isset ($annotation['adult'])) {
+                print ("array does not exist");
+            }
+            */
+
         return array_map(function($annotation) {
             return [
-                'adult' => $annotation['adult'],
-                'violence' => $annotation['violence']
+                'adult' => isset($annotation['adult']),
+                'spoof' => isset($annotation['spoof']),
+                'medical' => isset($annotation['medical']),
+                'violence' => isset($annotation['violence'])
             ];
         }, $result->info()['safeSearchAnnotation']);
-        */
     }
 
     public function boundingPoly($annotation) {
         if (isset($annotation['boundingPoly'])) {
-            print("bounding polygon for the detected image annotation:\n");
+            echo("bounding polygon for the detected image annotation:\n");
             foreach ($annotation['boundingPoly']['vertices'] as $vertex) {
-                $x = isset($vertex['x']) ? $vertex['x'] : '';
-                $y = isset($vertex['y']) ? $vertex['y'] : '';
-                print("x:$x\ty:$y\n");
+                $x[] = isset($vertex['x']) ? $vertex['x'] : '';
+                $y[] = isset($vertex['y']) ? $vertex['y'] : '';
+                //echo("x:$x\ty:$y\n");
             }
+            return array($x,$y);
         }
     }
 }
