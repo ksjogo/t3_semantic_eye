@@ -2,12 +2,21 @@
 namespace Dkd\SemanticEye\Service;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Resource\File;
+use TYPO3\CMS\Core\Resource\ResourceFactory;
+use TYPO3\CMS\Core\Resource\ResourceStorage;
+use TYPO3\CMS\Core\Resource\FileReference;
+
 
 use Google\Cloud\Vision\VisionClient;
 
 class CloudVisionService extends ImageService
 {
     protected $vision = null;
+
+    protected $uid = array();
+
+    protected $tablename ='sys_file_metadata';
+
 
     public function __construct()
     {
@@ -95,9 +104,29 @@ class CloudVisionService extends ImageService
             ['FACE_DETECTION']
         );
 
+        print_r($file->getUid());
+        //print_r($single_filename = $file->getName());
+
         echo("\nType of image detection: FACE_DETECTION\n\n");
 
         $result = $this->vision->annotate($image);
+
+        //metadata array
+        $typo3_result_array[] = $result->info()['faceAnnotations'];
+
+        $result_json = json_encode($typo3_result_array);
+        $result_array = array('description' =>  $result_json);
+
+        //$test = array('description' =>  'test');
+
+        $uid = $this->get_uids();
+
+        foreach ($uid as $single_uid) {
+            //print_r($single_uid);
+                if($single_uid === '15') {
+                 $GLOBALS['TYPO3_DB']->exec_UPDATEquery('sys_file_metadata', 'uid='.$single_uid , $result_array);
+            }
+        }
 
         if (!isset($result->info()['faceAnnotations'])) {
             return;
@@ -305,5 +334,28 @@ class CloudVisionService extends ImageService
             }
             return array($x,$y);
         }
+    }
+
+    public function get_uids() {
+
+        $resourceFactory = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance();
+        //get the Storage; return null if no default Storage exists
+        $defaultStorage = $resourceFactory->getDefaultStorage();
+        //get a Folder object; path relative to Storage root
+        $folder = $defaultStorage->getFolder('CloudVisionAPI');
+        //retrieve the files
+        //$file = $defaultStorage->getFilesInFolder($folder);
+        //$single_filename = $file->getName();
+
+        $image_files = $defaultStorage->getFilesInFolder($folder);
+
+        foreach ($image_files as $image_uid) {
+            print_r($uid[] = (string)$image_uid->getUid());
+        }
+
+        //echo "\n";
+        //print_r($uid);
+
+        return $uid;
     }
 }
